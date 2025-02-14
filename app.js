@@ -1,5 +1,6 @@
-// 1. Declara a variável que armazenará os amigos
+// 1. Declara a variável que armazenará os amigos e os amigos sorteados
 let amigos = [];
+let amigosSorteados = [];
 
 // 2. Função para adicionar amigo à lista
 function adicionarAmigo() {
@@ -10,6 +11,12 @@ function adicionarAmigo() {
     // Validação para garantir que o campo não esteja vazio
     if (nomeAmigo === "") {
         alert("Por favor, insira um nome.");
+        return;
+    }
+
+    // Verifica se o amigo já foi adicionado
+    if (amigos.includes(nomeAmigo)) {
+        alert("Este amigo já foi adicionado.");
         return;
     }
 
@@ -41,17 +48,24 @@ function exibirAmigos() {
 
 // 4. Função para sortear um amigo secreto aleatório
 function sortearAmigo() {
-    // Verifica se há amigos na lista
-    if (amigos.length === 0) {
-        alert("Por favor, adicione pelo menos um amigo antes de sortear.");
+    // Verifica se todos os amigos já foram sorteados
+    if (amigos.length === amigosSorteados.length) {
+        alert("Todos os amigos já foram sorteados.");
         return;
     }
 
     // Gera um índice aleatório
-    const indiceSorteado = Math.floor(Math.random() * amigos.length);
+    let indiceSorteado;
+    let amigoSorteado;
 
-    // Obtém o nome sorteado
-    const amigoSorteado = amigos[indiceSorteado];
+    // Enquanto o amigo sorteado já tiver sido sorteado antes, sorteia novamente
+    do {
+        indiceSorteado = Math.floor(Math.random() * amigos.length);
+        amigoSorteado = amigos[indiceSorteado];
+    } while (amigosSorteados.includes(amigoSorteado));
+
+    // Marca o amigo como sorteado
+    amigosSorteados.push(amigoSorteado);
 
     // Exibe o resultado na interface
     const resultado = document.getElementById('resultado');
